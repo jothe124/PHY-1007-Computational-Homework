@@ -29,5 +29,7 @@ class BiotSavartEquationSolver:
             B_x = B_y = 0 is always True in our 2D world.
         """
 
-        print('fait un test de commit')
+        
         raise NotImplementedError
+        
+print('fait un test de commit')
