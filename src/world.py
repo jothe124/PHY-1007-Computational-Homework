@@ -131,12 +131,12 @@ class World:
         """
         if not self.wires:
             raise ValueError("Place at least one wire before computing the circuits' fields.")
-        #else:
-            #self._potential = laplace
-            #self._electric_field = equation 
-            #self._magmetic_field = biot savart
-            #self._energy_flux = equation E
-            raise NotImplementedError
+
+        else:
+            self._potential = LaplaceEquationSolver.solve(self, self._wires_voltage)
+            self._magmetic_field = BiotSavartEquationSolver.solve(self, self._wires_current)
+            self._electric_field = ScalarField.gradient(self, self._potential)
+            self._energy_flux = (1/mu_0) * self._electric_field.cross(self._magmetic_field)
 
 
 

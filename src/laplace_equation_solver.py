@@ -60,6 +60,6 @@ class LaplaceEquationSolver:
             # on repose les même conditions
             V = np.where(constant_voltage != 0, constant_voltage, V)
             
-        P = V
-        return P
+        potential = V
+        return potential
 
