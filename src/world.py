@@ -117,7 +117,7 @@ class World:
         elif isinstance(an_object, Circuit):
             self._place_circuit(an_object)
 
-    def compute(self, nb_relaxation_iterations: int = 1000):
+    def compute(self, nb_iterations: int = 1000):
         """
         Calculates all the fields present in the world using the voltage and current fields produced by the wires in the
         circuits. The known fields are the voltage (self._wires_voltage) and current (self._wires_current) fields. The
@@ -129,14 +129,17 @@ class World:
         nb_relaxation_iterations : int
             Number of iterations performed to obtain the potential by the relaxation method (default = 1000)
         """
+
+        self.nb_iterations = nb_iterations
+
         if not self.wires:
             raise ValueError("Place at least one wire before computing the circuits' fields.")
 
         else:
-            self._potential = LaplaceEquationSolver.solve(self, self._wires_voltage)
-            self._magmetic_field = BiotSavartEquationSolver.solve(self, self._wires_current)
-            self._electric_field = ScalarField.gradient(self, self._potential)
-            self._energy_flux = (1/mu_0) * self._electric_field.cross(self._magmetic_field)
+            self._potential = LaplaceEquationSolver().solve(self._wires_voltage)
+            self._magmetic_field = VectorField(BiotSavartEquationSolver().solve(self._wires_current))
+            self._electric_field = VectorField(-self._potential.gradient())
+            self._energy_flux = VectorField((1/mu_0) * np.cross(self._electric_field, self._magmetic_field))
 
 
 

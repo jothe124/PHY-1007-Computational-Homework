@@ -35,23 +35,33 @@ class BiotSavartEquationSolver:
             B_z(x, y) are the 3 components of the magnetic vector at a given point (x, y) in space. Note that
             B_x = B_y = 0 is always True in our 2D world.
         """
-        
-        t, x, y, z = smp.symbols('t, x, y, z')
+        x, y, z = electric_current.shape
 
-        l = electric_current 
-        r = smp.Matrix([x, y, z])
+        constante = mu_0/(4*pi)
 
-        sep = r-l
+        magnetic_field = np.zeros(electric_current.shape)
 
-        integrand = smp.diff(l, t).cross(sep) / sep.norm()**3
 
-        dBxdt = smp.lambdify([t, x, y, z], integrand[0])
-        dBydt = smp.lambdify([t, x, y, z], integrand[1])
-        dBzdt = smp.lambdify([t, x, y, z], integrand[2])
 
-        
-        B_1 =  np.array([smp.integrate(dBxdt, x)], [smp.integrate(dBydt, y)], [smp.integrate(dBzdt, )])
-        magnetic_field = (mu_0/4*pi) * B_1
+        for col in range(x):
+            for ran in range(y):
 
-        return magnetic_field
+                if electric_current[col, ran] == 0:
+                    continue
+                
+                else:
+
+                    for co in range(x):
+                        for ra in range(y):
+                        
+                            if col == co and ran == ra:
+                                continue
+
+                        r_cursif = [col-co, ran-ra, 0]
+                        norme_r_cursif = np.sqrt(r_cursif[0]**2 + r_cursif[1]**2, r_cursif[2]**2)
+                        r_unitaire = r_cursif/norme_r_cursif
+                        magnetic_field[col, ran] += np.cross(electric_current[co, ra], r_unitaire)/(norme_r_cursif**2)
+
+
+        return magnetic_field*constante
 
