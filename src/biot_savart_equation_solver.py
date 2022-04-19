@@ -42,11 +42,10 @@ class BiotSavartEquationSolver:
         magnetic_field = np.zeros(electric_current.shape)
 
 
-
         for col in range(x):
             for ran in range(y):
 
-                if electric_current[col, ran] == 0:
+                if (electric_current[col, ran, :] == [0 ,0 ,0]).all():
                     continue
                 
                 else:
@@ -58,10 +57,10 @@ class BiotSavartEquationSolver:
                                 continue
 
                         r_cursif = [col-co, ran-ra, 0]
-                        norme_r_cursif = np.sqrt(r_cursif[0]**2 + r_cursif[1]**2, r_cursif[2]**2)
+                        norme_r_cursif = np.sqrt(np.sum(np.square(r_cursif)))
                         r_unitaire = r_cursif/norme_r_cursif
                         magnetic_field[col, ran] += np.cross(electric_current[co, ra], r_unitaire)/(norme_r_cursif**2)
 
 
-        return magnetic_field*constante
+        return VectorField(magnetic_field*constante)
 
