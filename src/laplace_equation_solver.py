@@ -41,7 +41,7 @@ class LaplaceEquationSolver:
 
         x, y = constant_voltage.shape 
         
-        for i in range(self.nb_iterations):
+        #for i in range(self.nb_iterations):
             #addition 
 
 

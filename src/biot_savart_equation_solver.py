@@ -32,8 +32,8 @@ class BiotSavartEquationSolver:
 
         ind_i, ind_j = np.indices((x,y))
 
-        for i in range(x):
-            for j in range(y):
+        #for i in range(x):
+            #for j in range(y):
                 # vecteur r
                 # normaliser r
                 # r chapeau
