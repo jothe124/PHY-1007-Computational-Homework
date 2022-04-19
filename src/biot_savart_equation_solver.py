@@ -28,4 +28,6 @@ class BiotSavartEquationSolver:
             B_z(x, y) are the 3 components of the magnetic vector at a given point (x, y) in space. Note that
             B_x = B_y = 0 is always True in our 2D world.
         """
+
+        print('fait un test de commit')
         raise NotImplementedError
