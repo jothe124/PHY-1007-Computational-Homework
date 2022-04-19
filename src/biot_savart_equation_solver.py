@@ -28,12 +28,12 @@ class BiotSavartEquationSolver:
             B_z(x, y) are the 3 components of the magnetic vector at a given point (x, y) in space. Note that
             B_x = B_y = 0 is always True in our 2D world.
         """
-        n, m = electric_current.shape 
+        x, y, z = electric_current.shape 
 
-        ind_i, ind_j = np.indices((n,m))
+        ind_i, ind_j = np.indices((x,y))
 
-        for i in range(n):
-            for j in range(m):
+        for i in range(x):
+            for j in range(y):
                 # vecteur r
                 # normaliser r
                 # r chapeau

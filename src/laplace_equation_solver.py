@@ -38,4 +38,11 @@ class LaplaceEquationSolver:
             the wires and in the empty space between the wires, while the field V always gives V(x, y) = 0 if (x, y)
             is not a point belonging to an electric wire.
         """
+
+        x, y = constant_voltage.shape 
+        
+        for i in range(self.nb_iterations):
+            #addition 
+
+
         raise NotImplementedError
