@@ -39,10 +39,27 @@ class LaplaceEquationSolver:
             is not a point belonging to an electric wire.
         """
 
-        x, y = constant_voltage.shape 
+
+        # définition de la grille de calcul
+        V = np.pad(constant_voltage, 1)  # grille de calcul courante
+
+        # définit grille initiale, zéros partout sauf où il y a des fils
+        # définition des conditions aux limites
         
-        #for i in range(self.nb_iterations):
-            #addition 
 
 
-        raise NotImplementedError
+        # boucle de calcul - méthode de Gauss-Seidel
+        for i in range(self.nb_iterations):
+
+            # sauvegarde de la grille courante pour calculer l'écart
+            Vavant = V.copy()
+            # calcul de la nouvelle valeur du potentiel sur la grille
+            V[1:-1,1:-1]= 0.25*(Vavant[0:-2,1:-1] +V[2:,1:-1] + Vavant[1:-1,0:-2] + V[1:-1,2:])
+
+
+            # on repose les même conditions
+            V = np.where(constant_voltage != 0, constant_voltage, V)
+            
+        P = V
+        return P
+
