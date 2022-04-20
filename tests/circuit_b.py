@@ -28,7 +28,7 @@ CIRCUIT = Circuit(wires=WIRES)
 
 
 
-enviro_a = World(WORLD_SHAPE)
-enviro_a.place(CIRCUIT)
-enviro_a.compute()
-enviro_a.show_all()
+enviro_b = World(WORLD_SHAPE)
+enviro_b.place(CIRCUIT)
+enviro_b.compute()
+enviro_b.show_all()
