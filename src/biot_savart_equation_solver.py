@@ -37,36 +37,35 @@ class BiotSavartEquationSolver:
         """
         x, y, z = electric_current.shape
 
+        x, y, z = int(x), int(y), int(z)
+
         constante = mu_0/(4*pi)
 
         magnetic_field = np.zeros(electric_current.shape)
+        mat_interim = electric_current.copy()
 
 
         for col in range(x):
             for ran in range(y):
 
-                if (electric_current[col, ran] == [0,0,0]).all():
+                if (electric_current[col, ran] == np.array([0,0,0])).all() :
                     continue
 
                 else:
 
-                    copie = electric_current.copy()
-
                     for co in range(x):
                         for ra in range(y):
-                        
-                            
-                            if (electric_current[col, ran] == [0,0,0]).all():
 
-                                r_cursif = np.array[col-co, ran-ra, 0]
-                                norme_r_cursif = math.sqrt((col-co)**2 + (ran-ra)**2)
-                                copie[co, ra] = constante * (np.cross(r_cursif, electric_current[col, ran])/(norme_r_cursif**3))
-                            
+                            if (electric_current[co, ra] == np.array([0,0,0])).all() :
+
+                                r_cursif = [col-co, ran-ra, 0]
+                                norme_r_cursif = np.sqrt(np.sum(np.square(r_cursif)))
+                                r_unitaire = r_cursif/norme_r_cursif
+                                mat_interim[co, ra] = (mu_0* (np.cross(r_unitaire, electric_current[col, ran])/(norme_r_cursif**2)))/(4*pi)
                             else:
                                 continue
 
-                    magnetic_field = np.add(magnetic_field, copie)
-
+                    magnetic_field = np.add(mat_interim, magnetic_field)
 
         return VectorField(magnetic_field)
 
