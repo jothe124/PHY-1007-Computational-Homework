@@ -139,7 +139,7 @@ class World:
             self._potential = LaplaceEquationSolver().solve(self._wires_voltage)
             self._magnetic_field = VectorField(BiotSavartEquationSolver().solve(self._wires_current))
             self._electric_field = VectorField(-self._potential.gradient())
-            self._energy_flux = VectorField(np.cross(self._electric_field, self._magnetic_field)/mu_0)
+            self._energy_flux = VectorField((np.cross(self._electric_field, self._magnetic_field))/mu_0)
 
 
 

@@ -1,3 +1,4 @@
+from ctypes import c_void_p
 import numpy as np
 
 from src.fields import ScalarField
@@ -9,7 +10,7 @@ class LaplaceEquationSolver:
     voltage field V (for example due to wires).
     """
 
-    def __init__(self, nb_iterations: int = 1000):
+    def __init__(self, nb_iterations: int = 3000):
         """
         Laplace solver constructor. Used to define the number of iterations for the relaxation method.
 
@@ -41,32 +42,25 @@ class LaplaceEquationSolver:
 
 
         # définition de la grille de calcul
-        V = np.pad(constant_voltage, 1)  # grille de calcul courante
-        C_V = np.pad(constant_voltage, 1)
-        C = constant_voltage
-        
-
-        
+        V = np.pad(constant_voltage, 1)
 
 
         # boucle de calcul - méthode de Gauss-Seidel
         for i in range(self.nb_iterations):
-
+            
+            #[1:-1,1:-1]
             # calcul de la nouvelle valeur du potentiel sur la grille
-            V[1:-1,1:-1] = 0.25*(V[0:-2,1:-1] + V[2:,1:-1] + V[1:-1,0:-2] + V[1:-1,2:])
+            Grille = 0.25*((V[:-2,1:-1]) + (V[2:,1:-1]) + (V[1:-1,:-2]) + (V[1:-1,2:]))
 
             # on repose les même conditions
-            V_final = np.where(C == 0, V[1:-1,1:-1], C)
+            V_final = np.where(constant_voltage == 0, Grille, constant_voltage)
 
             # on vérifie la précision
-            if np.max(abs(V_final - V[1:-1,1:-1])) <= 1e-15:
+            if np.max(abs(V_final - Grille)) <= 1e-19:
                 print(f" Terminé après {i} itérations")
                 break
 
             V = np.pad(V_final, 1)
 
-            
-        potential = V[1:-1,1:-1]
-
-        return ScalarField(potential)
+        return ScalarField(V_final)
 

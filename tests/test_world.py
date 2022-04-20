@@ -30,6 +30,7 @@ class TestWorld(unittest.TestCase):
     def testShouldReturnTheRightMagneticVectorAtCenter(self):
         true_value = [0, 0, -4.71199948e-08]
         computed_value = self.world._magnetic_field[self.CENTER]
+        print(computed_value[2])
 
         self.assertAlmostEqual(computed_value[0], true_value[0])
         self.assertAlmostEqual(computed_value[1], true_value[1])
@@ -38,6 +39,7 @@ class TestWorld(unittest.TestCase):
     def testShouldReturnTheRightPotentialAtCenter(self):
         true_value = -0.1573155955205982
         computed_value = self.world._potential[self.CENTER]
+        print(computed_value)
 
         self.assertAlmostEqual(computed_value, true_value)
 
@@ -47,6 +49,8 @@ class TestWorld(unittest.TestCase):
 
         self.assertAlmostEqual(computed_value[0], true_value[0])
         self.assertAlmostEqual(computed_value[1], true_value[1])
+        print(computed_value[0])
+        print(computed_value[1])
         # We deliberately don't test the last value of the vector, because it's equal to 0 and could therefore be
         # omitted.
 
@@ -56,6 +60,8 @@ class TestWorld(unittest.TestCase):
 
         self.assertAlmostEqual(computed_value[0], true_value[0])
         self.assertAlmostEqual(computed_value[1], true_value[1])
+        print(computed_value[0])
+        print(computed_value[1])
         # We deliberately don't test the last value of the vector, because it's equal to 0 and could therefore be
         # omitted.
 
