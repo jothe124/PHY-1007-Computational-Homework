@@ -1,8 +1,8 @@
 import numpy as np
+import math
 from scipy.constants import mu_0, pi
 
 from src.fields import VectorField
-
 
 
 from scipy.integrate import quad
@@ -45,20 +45,28 @@ class BiotSavartEquationSolver:
         for col in range(x):
             for ran in range(y):
 
+                if (electric_current[col, ran] == [0,0,0]).all():
+                    continue
 
-                for co in range(x):
-                    for ra in range(y):
+                else:
+
+                    copie = electric_current.copy()
+
+                    for co in range(x):
+                        for ra in range(y):
                         
-                        if co == col and ran == ra:
-                            continue
+                            
+                            if (electric_current[col, ran] == [0,0,0]).all():
 
-                        else:
+                                r_cursif = np.array[col-co, ran-ra, 0]
+                                norme_r_cursif = math.sqrt((col-co)**2 + (ran-ra)**2)
+                                copie[co, ra] = constante * (np.cross(r_cursif, electric_current[col, ran])/(norme_r_cursif**3))
+                            
+                            else:
+                                continue
 
-                            r_cursif = [col-co, ran-ra, 0]
-                            norme_r_cursif = np.sqrt(np.sum(np.square(r_cursif)))
-                            r_unitaire = r_cursif/norme_r_cursif
-                            magnetic_field[col, ran] += np.cross(electric_current[co, ra], r_unitaire)/(norme_r_cursif**2)
+                    magnetic_field = np.add(magnetic_field, copie)
 
 
-        return VectorField(magnetic_field*constante)
+        return VectorField(magnetic_field)
 
